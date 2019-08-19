@@ -1,4 +1,9 @@
-'use strict';
+// 'use strict';
+
+// import darkTheme from '@ant-design/dark-theme';
+// import darkTheme from '@ant-design/dark-theme/index.js'
+// import React from 'react'
+// import { Card, Table } from 'antd'
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
@@ -11,6 +16,18 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+// const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
+
+// const options = {
+//   antDir: path.join(__dirname, './node_modules/antd'),
+//   stylesDir: path.join(__dirname, './src/styles'),
+//   varFile: path.join(__dirname, './src/styles/variables.less'),
+//   mainLessFile: path.join(__dirname, './src/styles/index.less'),
+//   themeVariables: ['@primary-color'],
+//   indexFileName: 'index.html'
+// }
+
+// const themePlugin = new AntDesignThemePlugin(options);
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -119,6 +136,12 @@ module.exports = {
             },
             loader: require.resolve('eslint-loader'),
           },
+          // {
+          //   loader: 'less-loader',
+          //   options: {
+          //     modifyVars: DarkTheme,
+          //   },
+          // },
         ],
         include: paths.appSrc,
       },

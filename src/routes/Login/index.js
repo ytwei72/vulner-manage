@@ -5,28 +5,19 @@ import './style.css'
 import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react/index'
 import Loading2 from '../../components/Loading2'
-import { preloadingImages } from '../../utils/utils'
 import 'animate.css'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import LoginBGImage from '../../resources/image/login_bg.jpg'
 
-const url = 'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/bg1.jpg?raw=true'
-const imgs = [
-  'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/slide1.jpg?raw=true',
-  'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/slide2.jpg?raw=true',
-  'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/slide3.jpg?raw=true',
-  'https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/slide4.jpg?raw=true'
-]
-
-
-
+const bgimage_url = 'url(' + LoginBGImage + ')';
 
 
 @withRouter @inject('appStore') @observer
 class Login extends React.Component {
   state = {
     showBox: 'login',   //展示当前表单
-    url: '',  //背景图片
+    bgimage_url: '',  //背景图片
     loading: false,
     loading2: false,
   }
@@ -38,7 +29,6 @@ class Login extends React.Component {
       // this.props.appStore.toggleLogin(false) //也可以设置退出登录
     }
     this.initPage()
-    preloadingImages(imgs)  //预加载下一个页面的图片，预加载了第二次为什么还会去请求图片资源？
   }
 
   componentWillUnmount() {
@@ -51,13 +41,10 @@ class Login extends React.Component {
       loading: true
     })
     this.props.appStore.initUsers()
-    this.loadImageAsync(url).then(url => {
       this.setState({
         loading: false,
-        url
+        bgimage_url
       })
-    }).then(() => {
-      //为什么写在then里？id为backgroundBox的DOM元素是在loading为false时才有，而上面的setState可能是异步的，必须等到setState执行完成后才去获取dom
       this.particle = new BGParticle('backgroundBox')
       this.particle.init()
       notification.open({
@@ -65,7 +52,6 @@ class Login extends React.Component {
         duration: 0,
         className: 'login-notification'
       })
-    })
   }
   //切换showbox
   switchShowBox = (box) => {
@@ -75,16 +61,16 @@ class Login extends React.Component {
   }
 
   //登录的背景图太大，等载入完后再显示，实际上是图片预加载，
-  loadImageAsync(url) {
+  loadImageAsync(bgimage_url) {
     return new Promise(function (resolve, reject) {
       const image = new Image();
       image.onload = function () {
-        resolve(url);
+        resolve(bgimage_url);
       };
       image.onerror = function () {
         console.log('图片载入错误')
       };
-      image.src = url;
+      image.src = bgimage_url;
     });
   }
 
@@ -122,8 +108,7 @@ const styles = {
     left: '0',
     width: '100vw',
     height: '100vh',
-    // backgroundImage: 'url(https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/bg5.jpg?raw=true)',
-    backgroundImage: 'url(https://github.com/zhangZhiHao1996/image-store/blob/master/react-admin-master/bg1.jpg?raw=true)',
+    backgroundImage: bgimage_url,
     backgroundSize: '100% 100%',
     transition: 'all .5s'
   },
