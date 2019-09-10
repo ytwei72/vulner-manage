@@ -4,7 +4,7 @@ import ReactEcharts from 'echarts-for-react';
 
 import HttpRequest from '../../utils/HttpRequest';
 
-import { getCardHeaderStyle } from './ShareStyle'
+import { getCardHeaderStyle, getChartHeight } from './ShareStyle'
 
 class SubmitMonthStatChart extends React.Component {
     constructor(props) {
@@ -77,14 +77,21 @@ class SubmitMonthStatChart extends React.Component {
                         {
                             name: '漏洞数',
                             type: 'line',
+                            areaStyle: {},
                             itemStyle: {
                                 normal: {
-                                    color: '#27727B',
+                                    // color: '#27727B',
                                     label: {
                                         show: true,
                                         position: 'top',
+                                    },
+                                    color: '#ff5050',
+                                    borderColor: '#27727B',
+                                    areaStyle: {
+                                        type: 'default',
+                                        opacity: 0.1
                                     }
-                                }
+                                                }
                             },
                             encode: {
                                 // Map the "month_count" column to Y axis.
@@ -98,7 +105,7 @@ class SubmitMonthStatChart extends React.Component {
                 notMerge={true}
                 lazyUpdate={true}
                 // onEvents={onEvents}
-                style={{ width: '100%', height: '300px' }}
+                style={{ width: '100%', height: getChartHeight() + 'px' }}
             />
         );
     }

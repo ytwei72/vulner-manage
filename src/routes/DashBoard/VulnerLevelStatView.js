@@ -6,8 +6,8 @@ import HttpRequest from '../../utils/HttpRequest';
 
 import SubmitMonthStatChart from './SubmitMonthStatChart';
 import FixedProgress from './FixedProgress';
-import OpenMonthStatChart from './OpenMonthStatChart';
-import { getCardHeaderStyle } from './ShareStyle'
+import OpenMonthStatChart from './OpenYearStatChart';
+import { getCardHeaderStyle, getChartHeight } from './ShareStyle'
 
 class VulnerLevelStatView extends React.Component {
     constructor(props) {

@@ -4,6 +4,7 @@ import screenfull from 'screenfull'
 import { inject, observer } from 'mobx-react'
 import { Link, withRouter } from 'react-router-dom'
 import { isAuthenticated } from '../../utils/Session'
+import LogoImage from '../../resources/image/logo.jpg'
 
 //withRouter一定要写在前面，不然路由变化不会反映到props中去
 @withRouter @inject('appStore') @observer
@@ -15,7 +16,7 @@ class HeaderBar extends React.Component {
     avatar: require('./img/04.jpg')
   }
 
-  componentDidMount () {
+  componentDidMount() {
     screenfull.onchange(() => {
       this.setState({
         icon: screenfull.isFullscreen ? 'shrink' : 'arrows-alt'
@@ -23,7 +24,7 @@ class HeaderBar extends React.Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     screenfull.off('change')
   }
 
@@ -40,19 +41,19 @@ class HeaderBar extends React.Component {
     this.props.history.push(this.props.location.pathname)
   }
 
-  render () {
-    const {icon, count, visible, avatar} = this.state
-    const {appStore, collapsed, location} = this.props
+  render() {
+    const { icon, count, visible, avatar } = this.state
+    const { appStore, collapsed, location } = this.props
     const notLogin = (
       <div>
-        <Link to={{pathname: '/login', state: {from: location}}} style={{color: 'rgba(0, 0, 0, 0.65)'}}>登录</Link>&nbsp;
-        <img src={require('../../assets/img/defaultUser.jpg')} alt=""/>
+        <Link to={{ pathname: '/login', state: { from: location } }} style={{ color: 'rgba(0, 0, 0, 0.65)' }}>登录</Link>&nbsp;
+        <img src={require('../../assets/img/defaultUser.jpg')} alt="" />
       </div>
     )
     const menu = (
       <Menu className='menu'>
-        <Menu.ItemGroup title='用户中心' className='menu-group'>
-          <Menu.Item>你好 - {isAuthenticated()}</Menu.Item>
+        <Menu.ItemGroup title={'用户：'+ isAuthenticated()} className='menu-group'>
+          {/* <Menu.Item>你好 - {isAuthenticated()}</Menu.Item> */}
           <Menu.Item>个人信息</Menu.Item>
           <Menu.Item><span onClick={this.logout}>退出登录</span></Menu.Item>
         </Menu.ItemGroup>
@@ -63,8 +64,11 @@ class HeaderBar extends React.Component {
       </Menu>
     )
     const login = (
-      <Dropdown overlay={menu}>
-        <img onClick={() => this.setState({visible: true})} src={avatar} alt=""/>
+      // <Dropdown overlay={menu}>
+      //   <img onClick={() => this.setState({ visible: true })} src={avatar} alt="" />
+      //  </Dropdown>
+      <Dropdown overlay={menu} trigger={['contextMenu', 'click']}>
+        <img src={avatar} alt="" />
       </Dropdown>
     )
     return (
@@ -72,13 +76,15 @@ class HeaderBar extends React.Component {
         <Icon
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           className='trigger'
-          onClick={this.toggle}/>
-        <div style={{lineHeight: '64px', float: 'right'}}>
+          onClick={this.toggle} />
+        <img style={{ marginLeft: '16px' }} alt="logo-pic" src={LogoImage} />
+        <span style={{ fontSize: 28, marginLeft: '32px' }} color="#108ee9">{'漏洞缺陷管理系统'}</span>
+        <div style={{ lineHeight: '64px', float: 'right' }}>
           <ul className='header-ul'>
-            <li><Icon type={icon} onClick={this.screenfullToggle}/></li>
-            <li onClick={() => this.setState({count: 0})}>
-              <Badge count={appStore.isLogin ? count : 0} overflowCount={99} style={{marginRight: -17}}>
-                <Icon type="notification"/>
+            <li><Icon type={icon} onClick={this.screenfullToggle} /></li>
+            <li onClick={() => this.setState({ count: 0 })}>
+              <Badge count={appStore.isLogin ? count : 0} overflowCount={99} style={{ marginRight: -17 }}>
+                <Icon type="notification" />
               </Badge>
             </li>
             <li>
@@ -86,13 +92,13 @@ class HeaderBar extends React.Component {
             </li>
           </ul>
         </div>
-        <Modal
+        {/* <Modal
           footer={null} closable={false}
           visible={visible}
           wrapClassName="vertical-center-modal"
-          onCancel={() => this.setState({visible: false})}>
-          <img src={avatar} alt="" width='100%'/>
-        </Modal>
+          onCancel={() => this.setState({ visible: false })}>
+          <img src={avatar} alt="" width='100%' />
+        </Modal> */}
       </div>
     )
   }

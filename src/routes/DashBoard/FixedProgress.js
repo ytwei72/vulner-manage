@@ -4,7 +4,7 @@ import ReactEcharts from 'echarts-for-react';
 
 import HttpRequest from '../../utils/HttpRequest';
 
-import { getCardHeaderStyle } from './ShareStyle'
+import { getCardHeaderStyle, getChartHeight } from './ShareStyle'
 
 class FixedProgress extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class FixedProgress extends React.Component {
         }
 
         return (
-            <Card title="修复率" headStyle={getCardHeaderStyle()}>
+            <Card title="漏洞修复率" headStyle={getCardHeaderStyle()}>
                 <div style={{ align: 'center' }}>
                     <Progress type="circle" percent={percent} status={'active'} width={86} strokeWidth={10} />
                 </div>

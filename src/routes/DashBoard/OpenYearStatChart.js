@@ -4,9 +4,9 @@ import ReactEcharts from 'echarts-for-react';
 
 import HttpRequest from '../../utils/HttpRequest';
 
-import { getCardHeaderStyle } from './ShareStyle'
+import { getCardHeaderStyle, getChartHeight } from './ShareStyle'
 
-class OpenMonthStatChart extends React.Component {
+class OpenYearStatChart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,13 +18,13 @@ class OpenMonthStatChart extends React.Component {
 
     fetchOpenMonthStatCB = (data) => {
         let openMonthStat = data.payload.map((item, index) => {
-            return { 'value': item.month_count, 'name': item._id, 'selected': index === 0 };
+            return { 'value': item.year_count, 'name': item._id, 'selected': index === 0 };
         })
         this.setState({ openMonthStat });
     }
 
     fetchOpenMonthStat = () => {
-        HttpRequest.asyncGet(this.fetchOpenMonthStatCB, '/cnvd/month-stat', { time_type: 'open' });
+        HttpRequest.asyncGet(this.fetchOpenMonthStatCB, '/cnvd/yearly-stat', { time_type: 'open' });
     }
 
     getOption() {
@@ -32,8 +32,21 @@ class OpenMonthStatChart extends React.Component {
         return {
             // title: { text: '公开时间统计' },
             legend: {
-                // orient: 'vertical',
-                bottom: 2,
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+            },
+            //  legend: {
+            //             // orient: 'vertical',
+            //             bottom: 2,
+            //         },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
             },
             tooltip: {
                 trigger: 'item',
@@ -43,6 +56,7 @@ class OpenMonthStatChart extends React.Component {
                 {
                     name: '公开时间',
                     type: 'pie',
+                    center: ['40%', '50%'],
                     selectedMode: 'single',
                     radius: ['40%', '60%'],
                     data: openMonthStat
@@ -64,11 +78,11 @@ class OpenMonthStatChart extends React.Component {
                     notMerge={true}
                     lazyUpdate={true}
                     // onEvents={onEvents}
-                    style={{ width: '100%', height: '300px' }}
+                    style={{ width: '100%', height: getChartHeight() + 'px' }}
                 />
             </Card>
         );
     }
 }
 
-export default OpenMonthStatChart
+export default OpenYearStatChart
